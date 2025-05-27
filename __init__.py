@@ -27,7 +27,7 @@ import sys
 reload(sys)
 print(sys.getdefaultencoding())
 instanciaGPT = OpenAI(api_key='')
-conect= pymysql.connect(host='mysql-diegodev.alwaysdata.net',port=3306,user='diegodev',passwd='root9070',db='diegodev_2')
+conect= pymysql.connect(host='mysql-diegodev.alwaysdata.net',port=3306,user='',passwd='',db='diegodev_2')
 #conect= pymysql.connect(host='localhost',port=3306,user='root',passwd='',db='prueba')
 slctor = conect.cursor()
 #EJECUTAMOS ESTE CODIGO CUANDO SE INGRESE A LA RUTA 
