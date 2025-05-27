@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruit-GPT - Subir Documentos</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="interfaz.css"> <!-- Archivo CSS para personalizar estilos adicionales -->
+</head>
+<body>
+    <body>
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="card p-4 shadow-lg" style="max-width: 500px;">
+                <h1 class="text-center text-primary mb-4">Recruit-GPT</h1>
+                <p class="text-center text-muted">Sube tus archivos PDF</p>
+                {% if conf %}
+                    <div class="text-danger">Uno de los archivos introducidos no es de tipo PDF</div>
+                {% endif %}
+                {% if conf1 %}
+                {% for reslt in respuestas %}   
+                    <div>Cv {{loop.index0 + 1}} es {% if reslt %} apto {% else %} no apto {% endif %}</div> 
+                {% endfor %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+
+                                Entropia positiva: {{ entropia_acep }}
+                            </div>
+                            <div class="col">
+                                Entropia negativa: {{ entropia_dene }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                Cantidad aprovados: {{ cant_posi }}
+                            </div>
+                            <div class="col">
+                                Cantidad no aprovados: {{ cant_nega }}
+                            </div>
+                            <div class="col">
+                                Cantidad total: {{ cant }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% endif %}
+
+                <div>
+                    {% include 'form.html' %}    
+                </div>
+
+            </div>
+        </div>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+    </html>
+    
