@@ -26,7 +26,7 @@ import sys
 
 reload(sys)
 print(sys.getdefaultencoding())
-instanciaGPT = OpenAI(api_key='')
+#instanciaGPT = OpenAI(api_key='')
 conect= pymysql.connect(host='mysql-diegodev.alwaysdata.net',port=3306,user='',passwd='',db='diegodev_2')
 #conect= pymysql.connect(host='localhost',port=3306,user='root',passwd='',db='prueba')
 slctor = conect.cursor()
