@@ -1,7 +1,6 @@
 flask
 Werkzeug
 openai
-os
 math
 PyPDF2
 sys
