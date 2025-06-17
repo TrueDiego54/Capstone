@@ -1,5 +1,4 @@
 flask
-importlib
 xml.dom.minidom
 werkzeug.utils
 openai
@@ -7,4 +6,5 @@ os
 math
 PyPDF2
 sys
+importlib
 gunicorn
