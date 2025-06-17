@@ -1,0 +1,11 @@
+flask
+re
+ast
+importlib
+xml.dom.minidom
+werkzeug.utils
+openai
+os
+math
+PyPDF2
+sys

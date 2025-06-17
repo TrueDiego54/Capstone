@@ -1,0 +1,8 @@
+
+<form action="{{url_for('cv_envio')}}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="pdfFiles" class="font-weight-bold">Selecciona uno o varios archivos PDF:</label>
+        <input type="file" id="pdfFiles" name="cv[]" class="form-control-file" accept=".pdf" multiple required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Subir Curriculum</button>
+</form>
