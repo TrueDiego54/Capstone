@@ -20,18 +20,16 @@ import math as m
 import PyPDF2
 #LIBRERIAS PARA LA LECTURA DE LOS DICCIONARIOS
 import sys
-
+import json
 
 
 reload(sys)
 print(sys.getdefaultencoding())
-instanciaGPT = OpenAI( api_key = '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')
+instanciaGPT = OpenAI( api_key = os.getenv("GPT"))
 
 #EJECUTAMOS ESTE CODIGO CUANDO SE INGRESE A LA RUTA 
 def crear_app():
-  #conect= pymysql.connect(host='mysql-diegodev.alwaysdata.net',port=3306,user='',passwd='',db='diegodev_2')
-  #conect= pymysql.connect(host='localhost',port=3306,user='root',passwd='',db='prueba')
-  #slctor = conect.cursor()
+
   app = Flask(__name__,template_folder='html',)
   #INICIAMSO FLASK
   dic_nega,dic_posi = [],[]
@@ -94,7 +92,9 @@ def crear_app():
 
   @app.route("/", methods=["POST", "GET"])
   def root():
-    return render_template('index.html')
+    prub=[]
+    prub.append(1)
+    return render_template('index.html',packjson=json.dumps(prub))
   @app.route("/resp/", methods=["POST", "GET"])
 
 
@@ -106,8 +106,8 @@ def crear_app():
             if(request.files['cv[]']):
               file = request.files.getlist('cv[]')
               ruta = rut.dirname(__file__)
-              nombres,respuestas = [],[]
-              
+              nombres,respuestas,jason = [],[],[]
+              cantno_ttl,cantsi_ttl=0,0
               for index,fil in enumerate(file):
                 nombres.append(secure_filename(fil.filename))
                 nombres[index] = "cvs/" + nombres[index]
@@ -117,22 +117,43 @@ def crear_app():
                   ruta_subida = rut.join(ruta,nombre)
                   file[index].save(ruta_subida)
                   rpta = consulta(fil)
-                  aux1,aux2,rest,cantno,cantsi,cant = validaxionxentropia(rpta)
-                  
+                  aux1,aux2,rest,cantno,cantsi,cant,nom = validaxionxentropia(rpta)
+                  cantno_ttl += cantno
+                  cantsi_ttl += cantsi
                   respuesta_cont.append(aux1)
                   respuesta_cont.append(aux2)
                   respuesta_cont.append(rest)
                   respuesta_cont.append(cantno)
                   respuesta_cont.append(cantsi)
                   respuesta_cont.append(cant)
+                  respuesta_cont.append(nom)
                   respuestas.append(respuesta_cont)
+                  
                   os.remove(ruta_subida)
                   print(cantno,cantsi,cant)
                   print(respuestas)
                 else:
                   return render_template('index.html',conf=True) 
-      return render_template('index.html',conf1=True, respuestas= respuestas,entropia_acep=aux1,entropia_dene=aux2,cant_nega=cantno,cant_posi=cantsi,cant = cant)
+      
+      h1,h2=entropia(cantsi_ttl,cantno_ttl,cantsi_ttl+cantno_ttl)
+      jason.append(h1)
+      jason.append(h2)
+      return render_template('index.html',packjson = json.dumps(jason),conf1=True, respuestas= respuestas)
         
+
+  def entropia(caso_1,caso_2,casos):
+    inc1 = caso_1/casos
+    inc2 = caso_2/casos
+    if (caso_1!= 0 ):
+      h1=(inc1*m.log2(inc1))*casos*-1
+    else:
+      h1=0
+    if (caso_2!= 0 ):
+      h2=(inc2*m.log2(inc2))*casos*-1
+    else:
+      h2=0
+    return h1,h2  
+  
   def validaxionxentropia(rpta):
     rpta1 = rpta[0].content.split()
     rpta2 = rpta[1].content.split()
@@ -157,18 +178,8 @@ def crear_app():
       if g in dic_nega:
         contador_neg+= 1
     
-    print(rpta4)
-    cntd= contador_neg+contador_pos 
-    inc1 = contador_pos/cntd
-    inc2 = contador_neg/cntd
-    if (contador_pos!= 0 ):
-      h1=(inc1*m.log2(inc1))*cntd*-1
-    else:
-      h1=0
-    if (contador_neg!= 0 ):
-      h2=(inc2*m.log2(inc2))*cntd*-1
-    else:
-      h2=0
+    h1,h2= entropia(contador_pos,contador_neg,contador_pos+contador_neg)
+
     if (h1<=h2):
       result = True
     else:
@@ -202,7 +213,7 @@ def crear_app():
       grado += rpta4[punto4+i+3]
       grado += ' '
     print('nombre: '+nombre,'\ntrabajo: '+trabajo,'\nnombre: '+experiencia,'\ngra: '+grado)
-    return h1,h2,result,contador_neg,contador_pos,cntd
+    return h1,h2,result,contador_neg,contador_pos,contador_pos+contador_neg,nombre
   return app
 if __name__ == "__main__":
   app = crear_app()
