@@ -111,30 +111,28 @@ def crear_app():
               for index,fil in enumerate(file):
                 nombres.append(secure_filename(fil.filename))
                 nombres[index] = "cvs/" + nombres[index]
-              for index,nombre in enumerate(nombres):
-                if(nombre.endswith('pdf')):
-                  respuesta_cont = []
-                  ruta_subida = rut.join(ruta,nombre)
-                  file[index].save(ruta_subida)
-                  rpta = consulta(fil)
-                  aux1,aux2,rest,cantno,cantsi,cant,nom = validaxionxentropia(rpta)
-                  cantno_ttl += cantno
-                  cantsi_ttl += cantsi
-                  respuesta_cont.append(aux1)
-                  respuesta_cont.append(aux2)
-                  respuesta_cont.append(rest)
-                  respuesta_cont.append(cantno)
-                  respuesta_cont.append(cantsi)
-                  respuesta_cont.append(cant)
-                  respuesta_cont.append(nom)
-                  respuestas.append(respuesta_cont)
-                  
-                  os.remove(ruta_subida)
-                  print(cantno,cantsi,cant)
-                  print(respuestas)
+                if(nombres[index].endswith('pdf')):
+                    respuesta_cont = []
+                    ruta_subida = rut.join(ruta,nombres[index])
+                    file[index].save(ruta_subida)
+                    rpta = consulta(fil)
+                    aux1,aux2,rest,cantno,cantsi,cant,nom = validaxionxentropia(rpta)
+                    cantno_ttl += cantno
+                    cantsi_ttl += cantsi
+                    respuesta_cont.append(aux1)
+                    respuesta_cont.append(aux2)
+                    respuesta_cont.append(rest)
+                    respuesta_cont.append(cantno)
+                    respuesta_cont.append(cantsi)
+                    respuesta_cont.append(cant)
+                    respuesta_cont.append(nom)
+                    respuestas.append(respuesta_cont)
+                    
+                    os.remove(ruta_subida)
+                    print(cantno,cantsi,cant)
+                    print(respuestas)
                 else:
-                  return render_template('index.html',conf=True) 
-      
+                    return render_template('index.html',conf=True) 
       h1,h2=entropia(cantsi_ttl,cantno_ttl,cantsi_ttl+cantno_ttl)
       jason.append(h1)
       jason.append(h2)
