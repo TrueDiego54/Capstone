@@ -34,13 +34,19 @@ adorar
 adorado
 adorador
 cariñoso
-con adoración
+adoración
 hábil
 hábilmente
 adular
+necesitaría
 adulación
+Busque
+busque
 adulador
 avanzado
+ni
+típico
+típicos
 ventaja
 ventajoso
 ventajosamente
@@ -55,6 +61,7 @@ afablemente
 afectación
 afecto
 afinidad
+almacenes
 afirmar
 afirmación
 afirmativo
@@ -766,7 +773,6 @@ pastel caliente
 panqueques
 mas caliente
 abrazo
-humano
 humilde
 humildad
 humor
@@ -871,7 +877,7 @@ amigable para niños
 amablemente
 experto
 prestigio
-gran capacidad
+capacidad
 alabar
 loable
 loablemente
@@ -981,8 +987,8 @@ bonito
 bien
 noble
 silencioso
-no violencia
-no violento
+violencia
+violento
 notablemente
 notable
 nutrir
@@ -1082,7 +1088,7 @@ prefiriendo
 primer ministro
 prestigioso
 bonita
-no tiene precio
+tiene precio
 orgullo
 de principios
 privilegio
@@ -1178,7 +1184,6 @@ reembolso
 reintegrado
 real
 regiamente
-considerar
 alegrarse
 rejuvenecer
 rejuvenecido
@@ -1853,7 +1858,6 @@ conmovedor
 conseguible
 consideración
 considerado
-considerar
 consistente
 consolador
 constancia
@@ -2198,7 +2202,6 @@ gozosamente
 gracia
 graciosamente
 gracioso
-gran
 grandeza
 granizo
 gratifica
@@ -2239,7 +2242,6 @@ honrado
 honrando
 honrar
 hospitalario
-humano
 humildad
 humilde
 humor
