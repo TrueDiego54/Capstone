@@ -94,7 +94,7 @@ def crear_app():
   def root():
     prub=[]
     prub.append(1)
-    return render_template('index.html',packjson=json.dumps(prub))
+    return render_template('index.html',packjson=json.dumps(prub),packjson2=json.dumps(prub))
   @app.route("/resp/", methods=["POST", "GET"])
 
 
@@ -106,8 +106,8 @@ def crear_app():
             if(request.files['cv[]']):
               file = request.files.getlist('cv[]')
               ruta = rut.dirname(__file__)
-              nombres,respuestas,jason = [],[],[]
-              cantno_ttl,cantsi_ttl=0,0
+              nombres,respuestas,jason,jason2 = [],[],[],[]
+              cantno_ttl,cantsi_ttl,cantacept,cantden=0,0,0,0
               for index,fil in enumerate(file):
                 nombres.append(secure_filename(fil.filename))
                 nombres[index] = "cvs/" + nombres[index]
@@ -117,6 +117,10 @@ def crear_app():
                     file[index].save(ruta_subida)
                     rpta = consulta(fil)
                     aux1,aux2,rest,cantno,cantsi,cant,nom = validaxionxentropia(rpta)
+                    if(rest):
+                      cantacept+=1
+                    else:
+                      cantden+=1
                     cantno_ttl += cantno
                     cantsi_ttl += cantsi
                     respuesta_cont.append(aux1)
@@ -128,15 +132,15 @@ def crear_app():
                     respuesta_cont.append(nom)
                     respuestas.append(respuesta_cont)
                     
-                    os.remove(ruta_subida)
-                    print(cantno,cantsi,cant)
-                    print(respuestas)
+                    os.remove(ruta_subida) 
                 else:
                     return render_template('index.html',conf=True) 
       h1,h2=entropia(cantsi_ttl,cantno_ttl,cantsi_ttl+cantno_ttl)
       jason.append(h1)
       jason.append(h2)
-      return render_template('index.html',packjson = json.dumps(jason),conf1=True, respuestas= respuestas)
+      jason2.append(cantacept)
+      jason2.append(cantden)
+      return render_template('index.html',packjson2 = json.dumps(jason2),packjson = json.dumps(jason),conf1=True, respuestas= respuestas)
         
 
   def entropia(caso_1,caso_2,casos):
@@ -162,19 +166,22 @@ def crear_app():
     print(rpta1)
     for g in rpta1:
       if g in dic_posi:
+        print(g)
         contador_pos+= 1
-      if g in dic_nega:
-        contador_neg+= 1
+      aux_neg = dic_nega.count(g)
+      contador_neg+= aux_neg
     for g in rpta2:
       if g in dic_posi:
+        print(g)
         contador_pos+= 1
-      if g in dic_nega:
-        contador_neg+= 1
+      aux_neg = dic_nega.count(g)
+      contador_neg+= aux_neg
     for g in rpta3:
       if g in dic_posi:
+        print(g)
         contador_pos+= 1
-      if g in dic_nega:
-        contador_neg+= 1
+      aux_neg = dic_nega.count(g)
+      contador_neg+= aux_neg
     
     h1,h2= entropia(contador_pos,contador_neg,contador_pos+contador_neg)
 
@@ -186,14 +193,27 @@ def crear_app():
     try:
       punto1 = rpta4.index('**Nombre:**')
     except:
-      punto1 = rpta4.index('**Nombre**:')
-    tam1 = len('**Nombre:**')
-    punto2 = rpta4.index('**Trabajo')
-    tam2 = len('**Trabajo más relevante:**')
-    punto3 = rpta4.index('**Experiencia')
-    tam3 = len('**Experiencia más relevante:**')
-    punto4 = rpta4.index('**Grado')
-    tam4 = len('**Grado de educación:**')
+      try:
+        punto1 = rpta4.index('**Nombre**:')
+      except:
+        punto1=99
+    try:
+      tam1 = len('**Nombre:**')
+      punto2 = rpta4.index('**Trabajo')
+      tam2 = len('**Trabajo más relevante:**')
+      punto3 = rpta4.index('**Experiencia')
+      tam3 = len('**Experiencia más relevante:**')
+      punto4 = rpta4.index('**Grado')
+      tam4 = len('**Grado de educación:**')
+    except:
+      if(punto1==99):
+        nombre = 'hubo un error al analizar el nombre'
+      else:
+        for i in range(punto2-(punto1+1)):
+          nombre = nombre + rpta4[punto1+i+1]
+          nombre += ' '
+          print(nombre)
+      return h1,h2,result,contador_neg,contador_pos,contador_pos+contador_neg,nombre
     nombre=''
     trabajo=''
     experiencia=''
@@ -205,7 +225,7 @@ def crear_app():
     for i in range(punto3-(punto2+3)):
       trabajo += rpta4[punto2+i+3]
     for i in range(punto4-punto3+3):
-      experiencia += rpta4[punto3+i+3]
+      experiencia += rpta4[punto3+i+2]
 
     for i in range(len(rpta4)-(punto4+3)):
       grado += rpta4[punto4+i+3]
