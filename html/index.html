@@ -50,6 +50,7 @@
                         </div>    
                     {% endfor %}
                 <canvas id="my-chart" width="400" height="400"></canvas>
+                <canvas id="my-chart2" width="400" height="400"></canvas>
                 {% endif %}
 
                 <div>
@@ -60,14 +61,16 @@
         {% block javascript %}
         <script>
             let datachart = JSON.parse({{ packjson | tojson }});
-
+            let datachart2 = JSON.parse({{ packjson2 | tojson }});
             var ctx = document.querySelector("#my-chart");
+            var ctx2 = document.querySelector("#my-chart2");
+
             var myChart = new Chart(ctx,{
                 type:"bar",
                 data:{
                     labels: ['Entropia positiva', 'Entropia negativa'],
                     datasets: [{
-                        label: ["Entropia positiva","Entropia negativa"],
+                        label: 'data',
                         data: datachart,
                         backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
                         '#B276B2', '#E16851', '#FB8267'],
@@ -97,6 +100,42 @@
                     }
                 }
             });
+            var myChart2 = new Chart(ctx2,{
+                type:"bar",
+                data:{
+                    labels: ['Cvs aceptados', 'Cvs denegados'],
+                    datasets: [{
+                        label: 'data',
+                        data: datachart2,
+                        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+                        '#B276B2', '#E16851', '#FB8267'],
+                        borderWidth: 1,
+                        hoverBorderColor: "black",
+                        hoverBorderWidth: 2,
+                        hoverBackgroundColor: 'rgba(154, 245, 140)',
+                        pointHoverRadius: 5
+                    }],
+                },
+                options: {
+                    title: {
+                        display: true,
+                            text: "Income Vs Expenses",
+                                fontSize: 20,
+                    },
+                    legend: {
+                        position: "right",
+                            labels: {
+                            fontColor: "gray"
+                        },
+                        display: true,
+                    },
+
+                    elements: {
+                        hitRadius: 3,
+                    }
+                }
+            });
+
         </script>
         {% endblock%}
 
