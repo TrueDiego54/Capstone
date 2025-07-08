@@ -1,10 +1,6 @@
 #LIBRERIAS PARA FRAMEWORK WEB
-from ast import Import
 from importlib import reload
-from operator import contains
-from re import split
-from xml.dom.minidom import Document
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, render_template
 #LIBRERIAS PARA OBTENCION DEL NOMBRE DEL ARCHIVO
 from werkzeug.utils import secure_filename
 #LIBRERIAS PARA EL USO DE CHATGPT
@@ -13,7 +9,6 @@ from openai import OpenAI
 import os
 from os import path as rut
 from os import remove
-#LIBRERIA PARA LA CONEXION BD
 #LIBRERIAS PARA LAS FUNCIONES MATEMATICAS
 import math as m
 #LIBRERIAS PARA LA LECTURA DE PDF
@@ -26,6 +21,7 @@ import json
 reload(sys)
 print(sys.getdefaultencoding())
 instanciaGPT = OpenAI( api_key = os.getenv("GPT"))
+
 
 #EJECUTAMOS ESTE CODIGO CUANDO SE INGRESE A LA RUTA 
 def crear_app():
@@ -48,6 +44,7 @@ def crear_app():
 
       dic_nega.append(page)
 
+  
   def consulta(file):
     respuestas = []
     mensaje=''
